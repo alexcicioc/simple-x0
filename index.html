@@ -1,0 +1,121 @@
+<html>
+    <head>
+        <title>X0 game</title>
+        <style>
+            table {
+                margin-top: 200px;
+            }
+            input {
+                width: 100px;
+                height: 100px;
+                font-size: 50px;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <table align="center">
+            <tr>
+                <td colspan="2"><button onclick="window.location.reload();">Reset Game</button></td>
+            </tr>
+            <tr>
+                <td><input type="text" onchange="verificaDacaExSau0(this, 0, 0)" data-x="0" data-y="0"></td>
+                <td><input type="text" onchange="verificaDacaExSau0(this, 0, 1)" data-x="0" data-y="1"></td>
+                <td><input type="text" onchange="verificaDacaExSau0(this, 0, 2)"  data-x="0" data-y="2"></td>
+            </tr>
+
+            <tr>
+                    <td><input type="text" onchange="verificaDacaExSau0(this, 1, 0)" data-x="1" data-y="0"></td>
+                    <td><input type="text" onchange="verificaDacaExSau0(this, 1, 1)"  data-x="1" data-y="1"></td>
+                    <td><input type="text" onchange="verificaDacaExSau0(this, 1, 2)" data-x="1" data-y="2"></td>
+                </tr>
+
+            <tr>
+                    <td><input type="text" onchange="verificaDacaExSau0(this, 2, 0)" data-x="2" data-y="0"></td>
+                    <td><input type="text" onchange="verificaDacaExSau0(this, 2, 1)" data-x="2" data-y="1"></td>
+                    <td><input type="text" onchange="verificaDacaExSau0(this, 2, 2)" data-x="2" data-y="2"></td>
+                </tr>
+        </table>
+        <script>
+
+            let matrice = [];
+
+            for (let x = 0; x < 3; x++) {
+                matrice[x] = [];
+                for (let y = 0; y < 3; y++) {
+                    matrice[x][y] = '';
+                }
+            }
+
+            let ultimaValoare = 'o';
+
+        function verificaDacaExSau0(element, x, y) {
+            let valoareCurenta = element.value;
+
+
+            if (valoareCurenta === 'o' || valoareCurenta === 'x') {
+                if (ultimaValoare !== valoareCurenta) {
+                    matrice[x][y] = valoareCurenta;
+                    ultimaValoare = valoareCurenta;
+                    element.readOnly = true;
+                } else {
+                    element.value = '';
+                    if (valoareCurenta === 'o') {
+                        alert('E randul lui x')
+                    } else {
+                        alert('E randul lui o')
+                    }
+                }
+
+            } else {
+                // Aici trebuie sa pastrez referinta originala, nu pot folosi valoareCurenta
+                element.value = '';
+            }
+            verificaDacaACastigat(valoareCurenta, x, y);
+        }
+
+        function gameOver(castigator) {
+            alert('Game over. ' + castigator + ' a castigat');
+            // window.location.reload();
+        }
+
+        function verificaDacaACastigat() {
+            if (matrice[0][0] !== '' && matrice[0][0] === matrice[0][1] && matrice[0][1] === matrice[0][2]) {
+                document.querySelector("input[data-x='0'][data-y='0']").style.backgroundColor = 'blue';
+                document.querySelector("input[data-x='0'][data-y='1']").style.backgroundColor = 'blue';
+                document.querySelector("input[data-x='0'][data-y='2']").style.backgroundColor = 'blue';
+
+                gameOver(matrice[0][0]);
+            }
+
+            if (matrice[1][0] !== '' && matrice[1][0] === matrice[1][1] && matrice[1][1] === matrice[1][2]) {
+                gameOver(matrice[1][0]);
+            }
+
+            if (matrice[2][0] !== '' && matrice[2][0] === matrice[2][1] && matrice[2][1] === matrice[2][2]) {
+                gameOver(matrice[2][0]);
+            }
+
+            if (matrice[0][0] !== '' && matrice[0][0] === matrice[1][0] && matrice[1][0] === matrice[2][0]) {
+                gameOver(matrice[0][0]);
+            }
+
+            if (matrice[0][1] !== '' && matrice[0][1] === matrice[1][1] && matrice[1][1] === matrice[2][1]) {
+                gameOver(matrice[0][1]);
+            }
+
+            if (matrice[0][2] !== '' && matrice[0][2] === matrice[1][2] && matrice[1][2] === matrice[2][2]) {
+                gameOver(matrice[0][2]);
+            }
+
+            if (matrice[0][2] !== '' && matrice[0][2] === matrice[1][1] && matrice[1][1] === matrice[2][0]) {
+                gameOver(matrice[0][2]);
+            }
+
+            if (matrice[0][0] !== '' && matrice[0][0] === matrice[1][1] && matrice[1][1] === matrice[2][2]) {
+                gameOver(matrice[0][0]);
+            }
+        }
+        </script>
+    </body>
+</html>
